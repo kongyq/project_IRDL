@@ -18,7 +18,7 @@ wvs = model.model.wv.vectors
 docvecs = model._get_document_vectors()
 
 dims = [5,3,2]
-metrics = ['cosine', 'euclidean', 'hellinger']
+metrics = ['cosine', 'euclidean']
 
 for dim in dims:
     for metric in metrics:
@@ -27,13 +27,13 @@ for dim in dims:
                                n_components=dim,
                                metric=metric).fit(docvecs)
 
-        logger.info('Finding dense areas of documents')
-        cluster = hdbscan.HDBSCAN(min_cluster_size=15,
-                                  metric='euclidean',
-                                  cluster_selection_method='eom').fit(umap_model.embedding_)
+        #logger.info('Finding dense areas of documents')
+        #cluster = hdbscan.HDBSCAN(min_cluster_size=15,
+                                  #metric='euclidean',
+                                  #cluster_selection_method='eom').fit(umap_model.embedding_)
 
         dump(umap_model, 'umap_docs_'+str(dim)+'_'+metric+'.umap')
-        dump(cluster, 'hdb_docs_'+str(dim)+'_'+metric+'.hdb')
+        #dump(cluster, 'hdb_docs_'+str(dim)+'_'+metric+'.hdb')
 
 for dim in dims:
     for metric in metrics:
@@ -42,12 +42,12 @@ for dim in dims:
                                n_components=dim,
                                metric=metric).fit(wvs)
 
-        logger.info('Finding dense areas of words')
-        cluster = hdbscan.HDBSCAN(min_cluster_size=15,
-                                  metric='euclidean',
-                                  cluster_selection_method='eom').fit(umap_model.embedding_)
+        #logger.info('Finding dense areas of words')
+        #cluster = hdbscan.HDBSCAN(min_cluster_size=15,
+                                  #metric='euclidean',
+                                  #cluster_selection_method='eom').fit(umap_model.embedding_)
 
         dump(umap_model, 'umap_words_'+str(dim)+'_'+metric+'.umap')
-        dump(cluster, 'hdb_words_'+str(dim)+'_'+metric+'.hdb')
+        #dump(cluster, 'hdb_words_'+str(dim)+'_'+metric+'.hdb')
 
 
